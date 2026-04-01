@@ -17,7 +17,11 @@ BRANDS = [
         "id": "kebuke",
         "url": "https://www.facebook.com/kebuke2008"
     },
-    # 新增品牌時在這裡加一行，格式相同
+    {
+        "name": "鶴茶樓",
+        "id": "hechalou",
+        "url": "https://www.facebook.com/hechaloutea"
+    },
 ]
 
 
