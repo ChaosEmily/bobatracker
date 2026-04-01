@@ -224,6 +224,29 @@ header h1 {
 
 .card-link:hover { text-decoration: underline; }
 
+.card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.line-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #06C755;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.line-share-btn:hover { background: #05a847; }
+
 /* ===== Empty State ===== */
 .empty-state {
   text-align: center;

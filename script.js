@@ -87,6 +87,13 @@ function renderCards(posts) {
   grid.innerHTML = posts.map(post => cardHTML(post)).join('');
 }
 
+function lineShareUrl(post) {
+  const firstLine = (post.postText || '').split('\n')[0].trim();
+  const text = encodeURIComponent(`【${post.brand}】${firstLine}`);
+  const url = encodeURIComponent(post.postUrl || 'https://chaosmily.github.io/bobatracker');
+  return `https://social-plugins.line.me/lineit/share?url=${url}&text=${text}`;
+}
+
 function cardHTML(post) {
   const date = new Date(post.timestamp).toLocaleDateString('zh-TW', {
     year: 'numeric', month: 'long', day: 'numeric'
@@ -121,7 +128,10 @@ function cardHTML(post) {
           <span>${date}</span>
         </div>
         <p class="card-text">${summary}</p>
-        <a class="card-link" href="${post.postUrl}" target="_blank" rel="noopener">→ 前往原文</a>
+        <div class="card-actions">
+          <a class="card-link" href="${post.postUrl}" target="_blank" rel="noopener">→ 前往原文</a>
+          <a class="line-share-btn" href="${lineShareUrl(post)}" target="_blank" rel="noopener">分享 LINE</a>
+        </div>
       </div>
     </div>
   `;
