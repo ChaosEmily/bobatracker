@@ -138,3 +138,14 @@ function cardHTML(post) {
 }
 
 loadData();
+
+fetch('https://api.countapi.xyz/hit/chaosmily-bobatracker/visits')
+  .then(r => r.json())
+  .then(d => {
+    const el = document.getElementById('visit-count');
+    if (el) el.textContent = d.value.toLocaleString();
+  })
+  .catch(() => {
+    const el = document.getElementById('visit-count');
+    if (el) el.textContent = '?';
+  });
