@@ -23,6 +23,11 @@
     </div>
   </header>
 
+  <div id="ios-install-banner" class="ios-banner" style="display:none">
+    <span>📲 點 <strong>分享</strong> 再選「<strong>加入主畫面</strong>」即可安裝</span>
+    <button onclick="document.getElementById('ios-install-banner').style.display='none'">✕</button>
+  </div>
+
   <main>
     <div id="tag-bar" class="tag-bar"></div>
     <div id="filter-bar" class="filter-bar"></div>
@@ -38,6 +43,19 @@
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js');
+    }
+
+    // iOS Safari 安裝提示（非 standalone 模式才顯示）
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isSafari = /safari/i.test(navigator.userAgent) && !/chrome|crios|fxios/i.test(navigator.userAgent);
+    const isStandalone = window.navigator.standalone === true;
+    const dismissed = sessionStorage.getItem('ios-banner-dismissed');
+
+    if (isIOS && isSafari && !isStandalone && !dismissed) {
+      document.getElementById('ios-install-banner').style.display = 'flex';
+      document.querySelector('#ios-install-banner button').addEventListener('click', () => {
+        sessionStorage.setItem('ios-banner-dismissed', '1');
+      });
     }
   </script>
 </body>

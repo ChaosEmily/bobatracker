@@ -50,6 +50,28 @@ header h1 {
   vertical-align: middle;
 }
 
+/* ===== iOS Install Banner ===== */
+.ios-banner {
+  background: #f5c842;
+  color: #1a1a1a;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  gap: 12px;
+}
+
+.ios-banner button {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #1a1a1a;
+  flex-shrink: 0;
+  padding: 0 4px;
+}
+
 /* ===== Tag Bar ===== */
 .tag-bar {
   max-width: 1200px;
