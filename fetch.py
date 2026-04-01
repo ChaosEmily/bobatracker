@@ -83,6 +83,31 @@ def fetch_dataset(dataset_id):
     return resp.json()
 
 
+POSITIVE_KEYWORDS = [
+    "新品", "上市", "登場", "限定", "limited", "新推出", "回歸", "開賣",
+    "首賣", "新口味", "新登場", "限時", "全新", "驚喜", "limitednewly", "新品上市",
+]
+
+STRONG_NEGATIVE_KEYWORDS = [
+    "開幕慶", "試營運", "新開幕", "門市休息", "暫停營業",
+    "免費加料", "免費升級", "買一送一", "抽好禮",
+]
+
+WEAK_NEGATIVE_KEYWORDS = [
+    "折扣", "折抵", "優惠碼", "抽獎", "任務通知",
+]
+
+
+def is_new_product_post(text):
+    t = text.lower()
+    strong_neg = sum(1 for kw in STRONG_NEGATIVE_KEYWORDS if kw in t)
+    if strong_neg:
+        return False
+    score = sum(1 for kw in POSITIVE_KEYWORDS if kw.lower() in t)
+    score -= sum(1 for kw in WEAK_NEGATIVE_KEYWORDS if kw in t)
+    return score >= 1
+
+
 def extract_preview(text, max_lines=4):
     lines = [l for l in text.strip().split("\n") if l.strip()]
     return "\n".join(lines[:max_lines])
@@ -102,7 +127,10 @@ def extract_image(item):
 def transform(raw_items, brand_map):
     results = []
     for item in raw_items:
-        if not (item.get("text") or "").strip():
+        raw_text = (item.get("text") or "").strip()
+        if not raw_text:
+            continue
+        if not is_new_product_post(raw_text):
             continue
         page_url = item.get("facebookUrl", "")
         brand_info = brand_map.get(page_url, {})
