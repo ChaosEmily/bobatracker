@@ -9,7 +9,7 @@ import requests
 
 APIFY_TOKEN = os.environ["APIFY_TOKEN"]
 ACTOR_ID = "apify~facebook-posts-scraper"
-RESULTS_PER_PAGE = 2
+RESULTS_PER_PAGE = 5   # 多抓一些，過濾無文字貼文後保留最新 2 筆
 
 BRANDS = [
     {
@@ -102,6 +102,8 @@ def extract_image(item):
 def transform(raw_items, brand_map):
     results = []
     for item in raw_items:
+        if not (item.get("text") or "").strip():
+            continue
         page_url = item.get("facebookUrl", "")
         brand_info = brand_map.get(page_url, {})
         results.append({
@@ -113,9 +115,16 @@ def transform(raw_items, brand_map):
             "postUrl": item.get("url", ""),
             "timestamp": item.get("time", ""),
         })
-    # 按時間降冪排序
+    # 按時間降冪排序，每個品牌保留最新 2 筆
     results.sort(key=lambda x: x["timestamp"], reverse=True)
-    return results
+    seen = {}
+    final = []
+    for r in results:
+        brand = r["brandId"]
+        seen[brand] = seen.get(brand, 0) + 1
+        if seen[brand] <= 2:
+            final.append(r)
+    return final
 
 
 def main():
