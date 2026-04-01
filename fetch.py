@@ -47,9 +47,12 @@ def fetch_dataset(dataset_id):
 
 def extract_image(item):
     media = item.get("media", [])
-    if isinstance(media, list) and media:
-        m = media[0]
-        return m.get("imageHQ") or m.get("imageLQ") or m.get("url") or ""
+    if not isinstance(media, list):
+        return ""
+    for m in media:
+        img = m.get("thumbnail") or m.get("imageHQ") or m.get("imageLQ") or ""
+        if img and "fbcdn.net" in img:
+            return img
     return ""
 
 
