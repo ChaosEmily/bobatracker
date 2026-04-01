@@ -53,7 +53,7 @@ function cardHTML(post) {
   const date = new Date(post.timestamp).toLocaleDateString('zh-TW', {
     year: 'numeric', month: 'long', day: 'numeric'
   });
-  const summary = (post.postText || '').replace(/\n/g, ' ').slice(0, 40);
+  const summary = (post.postText || '').replace(/\n/g, '<br>');
   const isFiltered = currentFilter === post.brand;
   const filterBtnText = isFiltered ? '看所有品牌' : `只看 ${post.brand}`;
   const filterBtnAction = isFiltered
@@ -77,7 +77,7 @@ function cardHTML(post) {
           <span class="brand-tag">${post.brand}</span>
           <span>${date}</span>
         </div>
-        <p class="card-text">${summary}${post.postText && post.postText.length > 40 ? '…' : ''}</p>
+        <p class="card-text">${summary}</p>
         <a class="card-link" href="${post.postUrl}" target="_blank" rel="noopener">→ 前往原文</a>
       </div>
     </div>

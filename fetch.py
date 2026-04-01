@@ -45,6 +45,11 @@ def fetch_dataset(dataset_id):
     return resp.json()
 
 
+def extract_preview(text, max_lines=4):
+    lines = [l for l in text.strip().split("\n") if l.strip()]
+    return "\n".join(lines[:max_lines])
+
+
 def extract_image(item):
     media = item.get("media", [])
     if not isinstance(media, list):
@@ -64,7 +69,7 @@ def transform(raw_items, brand_map):
         results.append({
             "brand": brand_info.get("name", item.get("user", {}).get("name", "")),
             "brandId": brand_info.get("id", ""),
-            "postText": (item.get("text") or "").strip(),
+            "postText": extract_preview(item.get("text") or ""),
             "imageUrl": extract_image(item),
             "postUrl": item.get("url", ""),
             "timestamp": item.get("time", ""),
