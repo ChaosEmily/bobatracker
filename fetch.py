@@ -22,6 +22,36 @@ BRANDS = [
         "id": "hechalou",
         "url": "https://www.facebook.com/hechaloutea"
     },
+    {
+        "name": "一沐日",
+        "id": "aniceholiday",
+        "url": "https://www.facebook.com/anicehoilday"
+    },
+    {
+        "name": "青山",
+        "id": "peaktea",
+        "url": "https://www.facebook.com/peaktea.official"
+    },
+    {
+        "name": "五桐號",
+        "id": "wootea",
+        "url": "https://www.facebook.com/WooTeaTW"
+    },
+    {
+        "name": "UG 獨特綠",
+        "id": "uniquegreen",
+        "url": "https://www.facebook.com/uniquegreentea"
+    },
+    {
+        "name": "迷客夏",
+        "id": "milksha",
+        "url": "https://www.facebook.com/Milkshatw"
+    },
+    {
+        "name": "得正",
+        "id": "dezheng",
+        "url": "https://www.facebook.com/profile.php?id=100064036692208"
+    },
 ]
 
 
