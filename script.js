@@ -1,38 +1,76 @@
 let allData = [];
-let currentFilter = null;
+let currentTag = null;
+let currentBrand = null;
 
 async function loadData() {
   const res = await fetch('./data.json');
   allData = await res.json();
-  renderFilterBar();
+  renderTagBar();
+  renderBrandBar();
   renderCards(allData);
 }
 
-function renderFilterBar() {
-  const brands = [...new Set(allData.map(p => p.brand))];
-  const bar = document.getElementById('filter-bar');
+function renderTagBar() {
+  const tags = [...new Set(allData.map(p => p.tag).filter(Boolean))];
+  const bar = document.getElementById('tag-bar');
   bar.innerHTML = '';
 
   const allBtn = document.createElement('button');
-  allBtn.className = 'filter-btn' + (currentFilter === null ? ' active' : '');
-  allBtn.textContent = '所有品牌';
-  allBtn.onclick = () => setFilter(null);
+  allBtn.className = 'tag-btn' + (currentTag === null ? ' active' : '');
+  allBtn.textContent = '全部分類';
+  allBtn.onclick = () => setTag(null);
   bar.appendChild(allBtn);
 
-  brands.forEach(brand => {
+  tags.forEach(tag => {
     const btn = document.createElement('button');
-    btn.className = 'filter-btn' + (currentFilter === brand ? ' active' : '');
-    btn.textContent = brand;
-    btn.onclick = () => setFilter(brand);
+    btn.className = 'tag-btn' + (currentTag === tag ? ' active' : '');
+    btn.textContent = tag;
+    btn.onclick = () => setTag(tag);
     bar.appendChild(btn);
   });
 }
 
-function setFilter(brand) {
-  currentFilter = brand;
-  renderFilterBar();
-  const filtered = brand ? allData.filter(p => p.brand === brand) : allData;
-  renderCards(filtered);
+function renderBrandBar() {
+  const pool = currentTag ? allData.filter(p => p.tag === currentTag) : allData;
+  const brands = [...new Set(pool.map(p => p.brand))];
+  const bar = document.getElementById('filter-bar');
+  bar.innerHTML = '';
+
+  const allBtn = document.createElement('button');
+  allBtn.className = 'filter-btn' + (currentBrand === null ? ' active' : '');
+  allBtn.textContent = '所有品牌';
+  allBtn.onclick = () => setBrand(null);
+  bar.appendChild(allBtn);
+
+  brands.forEach(brand => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (currentBrand === brand ? ' active' : '');
+    btn.textContent = brand;
+    btn.onclick = () => setBrand(brand);
+    bar.appendChild(btn);
+  });
+}
+
+function setTag(tag) {
+  currentTag = tag;
+  currentBrand = null;
+  renderTagBar();
+  renderBrandBar();
+  renderCards(filtered());
+}
+
+function setBrand(brand) {
+  currentBrand = brand;
+  renderBrandBar();
+  renderCards(filtered());
+}
+
+function filtered() {
+  return allData.filter(p => {
+    if (currentTag && p.tag !== currentTag) return false;
+    if (currentBrand && p.brand !== currentBrand) return false;
+    return true;
+  });
 }
 
 function renderCards(posts) {
@@ -54,16 +92,20 @@ function cardHTML(post) {
     year: 'numeric', month: 'long', day: 'numeric'
   });
   const summary = (post.postText || '').replace(/\n/g, '<br>');
-  const isFiltered = currentFilter === post.brand;
+  const isFiltered = currentBrand === post.brand;
   const filterBtnText = isFiltered ? '看所有品牌' : `只看 ${post.brand}`;
   const filterBtnAction = isFiltered
-    ? `onclick="setFilter(null)"`
-    : `onclick="setFilter('${post.brand.replace(/'/g, "\\'")}')"`;
+    ? `onclick="setBrand(null)"`
+    : `onclick="setBrand('${post.brand.replace(/'/g, "\\'")}')"`;
 
   const imageSection = post.imageUrl
     ? `<img class="card-image" src="${post.imageUrl}" alt="${post.brand}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
       + `<div class="card-image-placeholder" style="display:none">🧋</div>`
     : `<div class="card-image-placeholder">🧋</div>`;
+
+  const tagBadge = post.tag
+    ? `<span class="tag-badge">${post.tag}</span>`
+    : '';
 
   return `
     <div class="card">
@@ -74,6 +116,7 @@ function cardHTML(post) {
       ${imageSection}
       <div class="card-footer">
         <div class="card-meta">
+          ${tagBadge}
           <span class="brand-tag">${post.brand}</span>
           <span>${date}</span>
         </div>

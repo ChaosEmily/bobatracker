@@ -15,41 +15,49 @@ BRANDS = [
     {
         "name": "可不可熟成紅茶",
         "id": "kebuke",
+        "tag": "台資茶",
         "url": "https://www.facebook.com/kebuke2008"
     },
     {
         "name": "鶴茶樓",
         "id": "hechalou",
+        "tag": "台資茶",
         "url": "https://www.facebook.com/hechaloutea"
     },
     {
         "name": "一沐日",
         "id": "aniceholiday",
+        "tag": "台資茶",
         "url": "https://www.facebook.com/anicehoilday"
     },
     {
         "name": "青山",
         "id": "peaktea",
+        "tag": "台資茶",
         "url": "https://www.facebook.com/peaktea.official"
     },
     {
         "name": "五桐號",
         "id": "wootea",
+        "tag": "台資茶",
         "url": "https://www.facebook.com/WooTeaTW"
     },
     {
         "name": "UG 獨特綠",
         "id": "uniquegreen",
+        "tag": "台資茶",
         "url": "https://www.facebook.com/uniquegreentea"
     },
     {
         "name": "迷客夏",
         "id": "milksha",
+        "tag": "台資茶",
         "url": "https://www.facebook.com/Milkshatw"
     },
     {
         "name": "得正",
         "id": "dezheng",
+        "tag": "台資茶",
         "url": "https://www.facebook.com/profile.php?id=100064036692208"
     },
 ]
@@ -99,6 +107,7 @@ def transform(raw_items, brand_map):
         results.append({
             "brand": brand_info.get("name", item.get("user", {}).get("name", "")),
             "brandId": brand_info.get("id", ""),
+            "tag": brand_info.get("tag", ""),
             "postText": extract_preview(item.get("text") or ""),
             "imageUrl": extract_image(item),
             "postUrl": item.get("url", ""),
