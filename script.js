@@ -139,11 +139,11 @@ function cardHTML(post) {
 
 loadData();
 
-fetch('https://api.countapi.xyz/hit/chaosmily-bobatracker/visits')
+fetch('https://api.counterapi.dev/v1/chaosmily-bobatracker/visits/up')
   .then(r => r.json())
   .then(d => {
     const el = document.getElementById('visit-count');
-    if (el) el.textContent = d.value.toLocaleString();
+    if (el) el.textContent = d.count.toLocaleString();
   })
   .catch(() => {
     const el = document.getElementById('visit-count');
