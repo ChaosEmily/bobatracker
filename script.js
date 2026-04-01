@@ -66,11 +66,13 @@ function setBrand(brand) {
 }
 
 function filtered() {
-  return allData.filter(p => {
-    if (currentTag && p.tag !== currentTag) return false;
-    if (currentBrand && p.brand !== currentBrand) return false;
-    return true;
-  });
+  return allData
+    .filter(p => {
+      if (currentTag && p.tag !== currentTag) return false;
+      if (currentBrand && p.brand !== currentBrand) return false;
+      return true;
+    })
+    .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 }
 
 function renderCards(posts) {
@@ -113,6 +115,9 @@ function cardHTML(post) {
       + `<div class="card-image-placeholder" style="display:none">🧋</div>`
     : `<div class="card-image-placeholder">🧋</div>`;
 
+  const isNew = (Date.now() - new Date(post.timestamp)) < 7 * 24 * 60 * 60 * 1000;
+  const newBadge = isNew ? `<span class="new-badge">NEW</span>` : '';
+
   const tagBadge = post.tag
     ? `<span class="tag-badge">${post.tag}</span>`
     : '';
@@ -121,7 +126,10 @@ function cardHTML(post) {
     <div class="card">
       <div class="card-header">
         <span class="brand-name">${post.brand}</span>
-        <button class="filter-only-btn" ${filterBtnAction}>${filterBtnText}</button>
+        <div class="card-header-right">
+          ${newBadge}
+          <button class="filter-only-btn" ${filterBtnAction}>${filterBtnText}</button>
+        </div>
       </div>
       ${imageSection}
       <div class="card-footer">

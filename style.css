@@ -180,6 +180,22 @@ header h1 {
   color: #1a1a1a;
 }
 
+.card-header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.new-badge {
+  background: #e8353a;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
+}
+
 .filter-only-btn {
   background: transparent;
   border: 1.5px solid #ddd;
