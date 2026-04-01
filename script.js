@@ -89,9 +89,9 @@ function renderCards(posts) {
 
 function lineShareUrl(post) {
   const firstLine = (post.postText || '').split('\n')[0].trim();
-  const text = encodeURIComponent(`【${post.brand}】${firstLine}`);
-  const url = encodeURIComponent(post.postUrl || 'https://chaosmily.github.io/bobatracker');
-  return `https://social-plugins.line.me/lineit/share?url=${url}&text=${text}`;
+  const postUrl = post.postUrl || 'https://chaosmily.github.io/bobatracker';
+  const message = `【${post.brand}】${firstLine}\n${postUrl}`;
+  return `https://line.me/R/msg/text/?${encodeURIComponent(message)}`;
 }
 
 function cardHTML(post) {
