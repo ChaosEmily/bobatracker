@@ -90,8 +90,11 @@ function renderCards(posts) {
 function lineShareUrl(post) {
   const firstLine = (post.postText || '').split('\n')[0].trim();
   const postUrl = post.postUrl || 'https://chaosmily.github.io/bobatracker';
-  const message = `【${post.brand}】${firstLine}\n${postUrl}`;
-  return `https://line.me/R/msg/text/?${encodeURIComponent(message)}`;
+  const message = encodeURIComponent(`【${post.brand}】${firstLine}\n${postUrl}`);
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  return isIOS
+    ? `line://msg/text/${message}`
+    : `https://line.me/R/msg/text/?${message}`;
 }
 
 function cardHTML(post) {
