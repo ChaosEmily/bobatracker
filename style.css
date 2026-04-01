@@ -307,6 +307,30 @@ header h1 {
   font-size: 1rem;
 }
 
+/* ===== Awareness Bar ===== */
+.awareness-bar {
+  text-align: center;
+  padding: 14px 16px;
+  background: #1a1a1a;
+  border-top: 1px solid #2d2d2d;
+}
+
+.awareness-bar a {
+  display: inline-block;
+  background: #f5c842;
+  color: #1a1a1a;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 8px 24px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.awareness-bar a:hover {
+  background: #e6b800;
+}
+
 /* ===== Footer ===== */
 footer {
   text-align: center;
