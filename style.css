@@ -40,11 +40,14 @@ header h1 {
   font-size: 0.75rem;
   color: #666;
   margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-.visit-counter #visit-count {
-  color: #f5c842;
-  font-weight: 700;
+.visit-badge {
+  height: 16px;
+  vertical-align: middle;
 }
 
 /* ===== Tag Bar ===== */
